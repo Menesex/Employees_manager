@@ -1,0 +1,19 @@
+# Render.com deployment config
+# Push this file to GitHub, then connect your repo on render.com
+# Render will detect this file and set everything up automatically
+
+services:
+  - type: web
+    name: employee-management-system
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: employees-db
+          property: connectionString
+
+databases:
+  - name: employees-db
+    plan: free
